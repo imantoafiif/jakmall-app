@@ -1,23 +1,22 @@
 <script setup>
-
+    import mainDisplay from './components/main-display.vue';
 </script>
 
 <template>
     <div class="container">
-        <p>laksjd</p>
+        <mainDisplay></mainDisplay>
     </div>
 </template>
 
 <style lang="stylus" scoped>
     .container
         height 100vh
-        background black
         display flex
         align-items center
         justify-content center
 
         > p
-            color white
+            color black
             margin 0
             padding 0
 </style>
