@@ -3,13 +3,13 @@
 </script>
 
 <template>
-    <div class="container">
+    <div class="app-container">
         <mainDisplay></mainDisplay>
     </div>
 </template>
 
 <style lang="stylus" scoped>
-    .container
+    .app-container
         height 100vh
         display flex
         align-items center

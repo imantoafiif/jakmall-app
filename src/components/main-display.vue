@@ -2,7 +2,10 @@
 
 <template>
     <div class="container">
-        <p>asjkd</p>
+        <a>
+            <font-awesome-icon icon="arrow-left" />
+            Back to Cart
+        </a>
     </div>
 </template>
 
@@ -12,4 +15,11 @@
         height 550px
         background white
         border-radius 4px
+        padding 24px
+
+        > a 
+            display flex
+            flex-direction row
+            gap 12px
+            align-items center
 </style>
