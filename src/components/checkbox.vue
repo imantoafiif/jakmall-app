@@ -4,7 +4,7 @@
 
 <template>
     <div
-        @click="$emit('click')" 
+        @click="$emit('action')" 
         class="checkbox-container">
         <div>
             <font-awesome-icon 
