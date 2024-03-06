@@ -1,7 +1,6 @@
 <script setup>
     import Title from './title.vue'
     import { usePurchaseOverview } from '../stores/purchaseOverview';
-    import { watch }  from 'vue';
 
     const overview = usePurchaseOverview()
 </script>

@@ -3,7 +3,7 @@
     import { storeToRefs } from 'pinia'
 
     const overview = usePurchaseOverview()
-    const { shipmentMessage } = storeToRefs(overview)
+    const { shipmentMessage, total } = storeToRefs(overview)
 
     const buttonMessage = () => {
         switch(overview.page) {
@@ -29,6 +29,15 @@
                     {{ shipmentMessage }}
                 </p>
             </div>
+            <div
+                v-if="overview.page >= 3" 
+                class="summary-container__head__item">
+                <hr/>
+                <p>Payment Method</p>
+                <p class="summary-container__head__item__purchased">
+                    {{ overview.payment?.method }}
+                </p>
+            </div>
         </div>
         <div class="summary-container__bottom">
             <p>
@@ -39,13 +48,13 @@
                 <span>Dropshipping fee</span>
                 <strong>5900</strong>
             </p>    
-            <p>
+            <p v-if="overview.page >= 2">
                 <span>{{ overview.shipment?.method }} shipment</span>
                 <strong>{{ overview.shipment?.value }}</strong>
             </p>    
             <h1>
                 <strong>Total</strong>
-                <strong>505,900</strong>
+                <strong>{{ total }}</strong>
             </h1>
             <button 
                 v-if="overview.page < 3"

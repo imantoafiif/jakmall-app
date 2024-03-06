@@ -1,12 +1,22 @@
 <script setup>
     import Title from './title.vue'
     import checkbox from './checkbox.vue';
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
+    import { usePurchaseOverview } from '../stores/purchaseOverview'
 
-    const isDropshipper = ref(false)
     const name = ref('')
     const address = ref('')
+    const overview = usePurchaseOverview()
 
+    watch(
+        () => overview.is_dropshipping,
+        (newValue, oldValue) => {
+            if(!newValue) {
+                overview.setDropshipper(null)
+                overview.setDropshipperPhone(null)
+            }
+        }
+    )
 </script>
 
 <template>
@@ -19,16 +29,16 @@
             <Title :label="'Delivery Details'"></Title>
             <div>
                 <checkbox 
-                    @action="() => isDropshipper = !isDropshipper"
-                    :value="isDropshipper"
+                    @action="() => overview.setDropshipStatus(!overview.is_dropshipping)"
+                    :value="overview.is_dropshipping"
                     :label="'Send as dropshipper'"/>
             </div>
         </div>
         <div class="delivery-container__input-grouping">
             <input placeholder="Name" v-model="name" />
-            <input placeholder="Dropshipper Name" v-model="name" />
+            <input :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper" />
             <input placeholder="Phone Number" v-model="name" />
-            <input placeholder="Dropshipper Phone Number" v-model="name" />
+            <input :disabled="!overview.is_dropshipping" placeholder="Dropshipper Phone Number" v-model="overview.dropshipper_phone" />
             <div class="delivery-container__input-grouping__textarea-container">
                 <textarea 
                     maxlength="120"

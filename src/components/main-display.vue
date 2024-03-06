@@ -7,7 +7,6 @@
     import summaries from './summary.vue';
     import { ref, watch, shallowRef }  from 'vue';
 
-    const isDropshipper = ref(false)
     const name = ref('')
     const address = ref('')
     const view = shallowRef(delivery)
