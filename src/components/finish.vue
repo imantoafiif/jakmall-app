@@ -13,7 +13,21 @@
             <Title :label="'Thank you'"></Title>
             <p>Order ID : {{ overview.order_id }}</p>
             <p>Your order will be delivered {{ shipmentMessage }}</p>
-            <a @click="() => overview.setPage(1)">
+            <a @click="() => overview.setOverview(
+                {
+                    page: 1,
+                    name: null,
+                    phone: null,
+                    address: null,
+                    is_dropshipping: false,
+                    dropshipper: null,
+                    dropshipper_phone: null,
+                    shipment: { method: 'GO-SEND', value: 15000, id: 'GOJEK' },
+                    payment: { method: 'e-Wallet', value: 1500000, id: 'EWALLET' },
+                    order_id: null,
+                    cost: 500000,
+                }
+            )">
                 <font-awesome-icon icon="arrow-left" />
                 Back to Homepage
             </a>

@@ -5,12 +5,23 @@
     import finish from './finish.vue';
     import payment from './payment.vue';
     import summaries from './summary.vue';
-    import { ref, watch, shallowRef }  from 'vue';
+    import { ref, watch, shallowRef, onMounted }  from 'vue';
 
     const name = ref('')
     const address = ref('')
     const view = shallowRef(delivery)
     const overview = usePurchaseOverview()
+
+    overview.$subscribe(() => {
+        const state = JSON.stringify(overview)
+        localStorage.setItem('user-state', state)
+    }, { detached: true })
+
+    onMounted(() => {
+        // alert('123')
+        const state = localStorage.getItem('user-state')
+        overview.setOverview(JSON.parse(state))
+    })
 
     watch(
         () => overview.page,

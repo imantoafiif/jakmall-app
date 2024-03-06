@@ -1,5 +1,5 @@
 <script setup>
-    import mainDisplay from './components/main-display.vue';
+    import mainDisplay from './components/main-display.vue'
 </script>
 
 <template>

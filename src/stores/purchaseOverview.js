@@ -59,18 +59,30 @@ export const usePurchaseOverview = defineStore('overview', {
         setDropshipStatus(v) {
             this.is_dropshipping = v
         },
-        resetOverview() {
-            this.page = 1
-            this.name = null
-            this.phone = null
-            this.address = null
-            this.is_dropshipping = false
-            this.dropshipper = null
-            this.dropshipper_phone = null
-            this.shipment = { method: 'GO-SEND', value: 15000, id: 'GOJEK' }
-            this.payment = { method: 'e-Wallet', value: 1500000, id: 'EWALLET' }
-            this.order_id = null
-            this.cost = 500000
+        setOverview({
+            page,
+            name,
+            phone,
+            address,
+            is_dropshipping,
+            dropshipper,
+            dropshipper_phone,
+            shipment,
+            payment,
+            order_id,
+            cost,
+        }) {
+            this.page = page
+            this.name = name
+            this.phone = phone
+            this.address = address
+            this.is_dropshipping = is_dropshipping
+            this.dropshipper = dropshipper
+            this.dropshipper_phone = dropshipper_phone
+            this.shipment = shipment
+            this.payment = payment
+            this.order_id = order_id
+            this.cost = cost
         },
     }
 })
