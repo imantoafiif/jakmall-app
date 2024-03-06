@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+    import { usePurchaseOverview } from '../stores/purchaseOverview';
+
+    const overview = usePurchaseOverview()
+</script>
 
 <template>
     <div class="bc-container">
@@ -9,7 +13,7 @@
                 { label: 'Finish', key: 3 },
             ]" 
             class="bc-container__steps">
-            <div :class="{'bc-container__steps__active': step.key <= 1}">{{ step.key }}</div>
+            <div :class="{'bc-container__steps__active': step.key <= overview.page}">{{ step.key }}</div>
             <span>{{ step.label }}</span>
         </div>
     </div>
@@ -42,6 +46,7 @@
                 justify-content center 
                 color #FF8A00
                 box-shadow 0px 2px 4px #FF8A004D
+                transition all .2s ease
 
             &__active 
                 background #FF8A00 !important

@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+    import { usePurchaseOverview } from '../stores/purchaseOverview';
+
+    const overview = usePurchaseOverview()
+</script>
 
 <template>
     <div class="summary-container">
@@ -19,7 +23,7 @@
                 <strong>Total</strong>
                 <strong>505,900</strong>
             </h1>
-            <button>
+            <button @click="() => overview.setPage(overview.page + 1)">
                 Continue to Payment
             </button>
         </div>
@@ -54,7 +58,7 @@
                 background #FF8A00
                 font-weight 500
                 color white
-                margin-top 20px
+                margin-top 10px
                 cursor pointer
 
             & > p

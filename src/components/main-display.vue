@@ -1,14 +1,29 @@
 <script setup>
+    import { usePurchaseOverview } from '../stores/purchaseOverview';
     import breadcrumbs from './breadcrumbs.vue';
     import delivery from './delivery.vue';
+    import finish from './finish.vue';
     import payment from './payment.vue';
     import summaries from './summary.vue';
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
 
     const isDropshipper = ref(false)
     const name = ref('')
     const address = ref('')
-    const view = ref(payment)
+    const view = ref(delivery)
+    const overview = usePurchaseOverview()
+
+    watch(
+        () => overview.page,
+        (newValue, oldValue) => {
+            switch(newValue) {
+                case 1: view.value = delivery; break;
+                case 2: view.value = payment; break;
+                case 3: view.value = finish; break;
+            }
+        }
+    )
+
 </script>
 
 <template>
