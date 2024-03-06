@@ -5,6 +5,8 @@
 
     const overview = usePurchaseOverview()
     const { shipmentMessage } = storeToRefs(overview)
+    
+    localStorage.removeItem('user-state')
 </script>
 
 <template>

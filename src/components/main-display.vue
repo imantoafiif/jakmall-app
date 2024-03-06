@@ -18,8 +18,8 @@
     }, { detached: true })
 
     onMounted(() => {
-        // alert('123')
         const state = localStorage.getItem('user-state')
+        if(!state) return
         overview.setOverview(JSON.parse(state))
     })
 
