@@ -5,12 +5,12 @@
     import finish from './finish.vue';
     import payment from './payment.vue';
     import summaries from './summary.vue';
-    import { ref, watch } from 'vue';
+    import { ref, watch, shallowRef }  from 'vue';
 
     const isDropshipper = ref(false)
     const name = ref('')
     const address = ref('')
-    const view = ref(delivery)
+    const view = shallowRef(delivery)
     const overview = usePurchaseOverview()
 
     watch(
@@ -19,7 +19,10 @@
             switch(newValue) {
                 case 1: view.value = delivery; break;
                 case 2: view.value = payment; break;
-                case 3: view.value = finish; break;
+                case 3:
+                    overview.setOID() 
+                    view.value = finish; 
+                break;
             }
         }
     )

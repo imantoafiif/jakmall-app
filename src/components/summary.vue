@@ -23,7 +23,9 @@
                 <strong>Total</strong>
                 <strong>505,900</strong>
             </h1>
-            <button @click="() => overview.setPage(overview.page + 1)">
+            <button 
+                v-if="overview.page < 3"
+                @click="() => overview.setPage(overview.page + 1)">
                 Continue to Payment
             </button>
         </div>
@@ -58,7 +60,7 @@
                 background #FF8A00
                 font-weight 500
                 color white
-                margin-top 10px
+                margin-top 18.76px
                 cursor pointer
 
             & > p
@@ -71,6 +73,8 @@
                 display flex
                 flex-direction row
                 justify-content space-between
+                margin-top 18.76px
+                margin-bottom 0
 
                 & > strong 
                     font-size 24px
