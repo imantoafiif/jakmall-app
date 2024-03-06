@@ -43,6 +43,12 @@
         gap 20px
         flex-grow 1
 
+        & > a 
+            display flex
+            align-items center
+            gap 12px
+            cursor pointer
+
         &__item 
             display flex
             flex-direction column
