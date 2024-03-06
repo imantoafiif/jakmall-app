@@ -1,5 +1,7 @@
 <script setup>
+    import breadcrumbs from './breadcrumbs.vue';
     import checkbox from './checkbox.vue';
+    import summaries from './summary.vue';
     import Title from './title.vue'
     import { ref } from 'vue';
 
@@ -10,32 +12,36 @@
 
 <template>
     <div class="container">
-        <a>
-            <font-awesome-icon icon="arrow-left" />
-            Back to Cart
-        </a>
-        <div class="container__headers">
-            <Title :label="'Delivery details'"></Title>
-            <div>
-                <checkbox 
-                    @action="() => isDropshipper = !isDropshipper"
-                    :value="isDropshipper"
-                    :label="'Send as dropshipper'"/>
+        <breadcrumbs class="container__breadcrumbs"></breadcrumbs>
+        <div class="container__pages">
+            <a>
+                <font-awesome-icon icon="arrow-left" />
+                Back to Cart
+            </a>
+            <div class="container__headers">
+                <Title :label="'Delivery details'"></Title>
+                <div>
+                    <checkbox 
+                        @action="() => isDropshipper = !isDropshipper"
+                        :value="isDropshipper"
+                        :label="'Send as dropshipper'"/>
+                </div>
+            </div>
+            <div class="container__input-grouping">
+                <input placeholder="Name" v-model="name" />
+                <input placeholder="Dropshipper Name" v-model="name" />
+                <input placeholder="Phone Number" v-model="name" />
+                <input placeholder="Dropshipper Phone Number" v-model="name" />
+                <div class="container__input-grouping__textarea-container">
+                    <textarea 
+                        maxlength="120"
+                        v-model="address"
+                        placeholder="Delivery Address"></textarea>
+                    <span>{{ address.length }} / 120</span>
+                </div>
             </div>
         </div>
-        <div class="container__input-grouping">
-            <input placeholder="Name" v-model="name" />
-            <input placeholder="Dropshipper Name" v-model="name" />
-            <input placeholder="Phone Number" v-model="name" />
-            <input placeholder="Dropshipper Phone Number" v-model="name" />
-            <div class="container__input-grouping__textarea-container">
-                <textarea 
-                    maxlength="120"
-                    v-model="address"
-                    placeholder="Delivery Address"></textarea>
-                <span>{{ address.length }} / 120</span>
-            </div>
-        </div>
+        <summaries></summaries>
     </div>
 </template>
 
@@ -48,9 +54,22 @@
         padding 24px
         z-index 0
         display flex
-        flex-direction column
-        gap 20px
+        flex-direction row
         box-shadow 2px 10px 20px 0 #ff8a0020
+        position relative
+
+        &__pages
+            display flex
+            flex-direction column
+            gap 20px
+            flex-grow 1
+            margin-right 40px
+
+        &__breadcrumbs 
+            position absolute
+            top -35px
+            left 50%
+            transform: translate(-50%)
 
         &__headers
             display flex
