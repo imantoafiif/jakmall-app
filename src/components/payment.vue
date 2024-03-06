@@ -1,6 +1,7 @@
 <script setup>
     import Title from './title.vue'
     import { usePurchaseOverview } from '../stores/purchaseOverview';
+    import { watch }  from 'vue';
 
     const overview = usePurchaseOverview()
 </script>
@@ -15,11 +16,12 @@
             <Title :label="'Shipment'"></Title>
             <div class="payment-container__item__list">
                 <div
-                    :class="{'payment-container__item__list__active': item.method == 'GO-JEK'}" 
+                    @click="() => overview.setShipment(item)"
+                    :class="{'payment-container__item__list__active': overview.shipment?.id == item.id}" 
                     v-for="item in [
-                        { method: 'GO-JEK', value: 15000 },
-                        { method: 'JNE', value: 9000 },
-                        { method: 'Personal Courier', value: 29000 },
+                        { method: 'GO-SEND', value: 15000, id: 'GOJEK' },
+                        { method: 'JNE', value: 9000, id: 'JNE' },
+                        { method: 'Personal Courier', value: 29000, id: 'COURIER' },
                     ]">
                     <span>{{ item.method }}</span>
                     <strong>{{ item.value }}</strong>
@@ -30,11 +32,12 @@
             <Title :label="'Payment'"></Title>
             <div class="payment-container__item__list">
                 <div
-                    :class="{'payment-container__item__list__active': item.method == 'e-Wallet'}" 
+                    @click="() => overview.setPayment(item)"
+                    :class="{'payment-container__item__list__active': overview.payment?.id == item.id}" 
                     v-for="item in [
-                        { method: 'e-Wallet', value: 1500000 },
-                        { method: 'Bank Transfer', value: null },
-                        { method: 'Virtual Account', value: null },
+                        { method: 'e-Wallet', value: 1500000, id: 'EWALLET' },
+                        { method: 'Bank Transfer', value: null, id: 'BANKTF' },
+                        { method: 'Virtual Account', value: null, id: 'VA' },
                     ]">
                     <span>{{ item.method }}</span>
                     <strong>
@@ -87,7 +90,7 @@
                         font-size 16px
 
                 &__active
-                    border 2px solid #1BD97B !important
+                    border 1px solid #1BD97B !important
                     background #1BD97B1A
 
             &:last-child
