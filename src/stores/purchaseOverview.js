@@ -4,9 +4,18 @@ export const usePurchaseOverview = defineStore('overview', {
     state: () => {
         return {
             page: 1,
-            name: null,
-            phone: null,
-            address: null,
+            name: {
+                value: null,
+                error_code: 1,
+            },
+            phone: {
+                value: null,
+                error_code: 0,
+            },
+            address: {
+                value: null,
+                error_code: 0,
+            },
             is_dropshipping: false,
             dropshipper: null,
             dropshipper_phone: null,

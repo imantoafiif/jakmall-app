@@ -56,9 +56,14 @@
                 <strong>Total</strong>
                 <strong>{{ total }}</strong>
             </h1>
-            <button 
+            <!-- <button 
                 v-if="overview.page < 3"
                 @click="() => overview.setPage(overview.page + 1)">
+                {{ buttonMessage() }}
+            </button> -->
+            <button 
+                v-if="overview.page < 3"
+                @click="$emit('proceed')">
                 {{ buttonMessage() }}
             </button>
         </div>
@@ -108,6 +113,7 @@
                 color white
                 margin-top 18.76px
                 cursor pointer
+                font-weight 600
 
             & > p
                 display flex

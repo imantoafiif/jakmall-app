@@ -5,16 +5,18 @@
     import finish from './finish.vue';
     import payment from './payment.vue';
     import summaries from './summary.vue';
-    import { ref, watch, shallowRef, onMounted }  from 'vue';
+    import { watch, shallowRef, onMounted }  from 'vue';
 
-    const name = ref('')
-    const address = ref('')
     const view = shallowRef(delivery)
     const overview = usePurchaseOverview()
+    const onProceed = () => {
+        console.log(1)
+    }
 
     overview.$subscribe(() => {
         const state = JSON.stringify(overview)
         localStorage.setItem('user-state', state)
+        console.log(state)
     }, { detached: true })
 
     onMounted(() => {
@@ -46,9 +48,8 @@
             <keep-alive :max="3">
                 <component :is="view"></component>
             </keep-alive>
-            <!-- <delivery></delivery> -->
         </div>
-        <summaries></summaries>
+        <summaries @proceed="onProceed()"/>
     </div>
 </template>
 

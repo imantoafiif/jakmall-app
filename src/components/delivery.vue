@@ -4,7 +4,6 @@
     import { ref, watch } from 'vue';
     import { usePurchaseOverview } from '../stores/purchaseOverview'
 
-    const name = ref('')
     const address = ref('')
     const overview = usePurchaseOverview()
 
@@ -35,14 +34,27 @@
             </div>
         </div>
         <div class="delivery-container__input-grouping">
-            <input placeholder="Name" v-model="name" />
-            <input :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper" />
-            <input placeholder="Phone Number" v-model="name" />
+            <div class="delivery-container__input-grouping__template">
+                <div class="delivery-container__input-grouping__template__container">
+                    <input placeholder="Email" v-model="overview.name.value" />
+                    x
+                </div>
+                <p v-if="overview.name.error_code == 1">This field is required</p>
+            </div>
+            <div class="delivery-container__input-grouping__template">
+                <div class="delivery-container__input-grouping__template__container">
+                    <input placeholder="Phone Number" v-model="overview.name.value" />
+                    x
+                </div>
+                <p v-if="overview.name.error_code == 1">This field is required</p>
+            </div>
+            <!-- <input :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper" /> -->
+            <input placeholder="Phone Number" v-model="overview.phone.value" />
             <input :disabled="!overview.is_dropshipping" placeholder="Dropshipper Phone Number" v-model="overview.dropshipper_phone" />
             <div class="delivery-container__input-grouping__textarea-container">
                 <textarea 
                     maxlength="120"
-                    v-model="address"
+                    v-model="overview.address.value"
                     placeholder="Delivery Address"></textarea>
                 <span>{{ address.length }} / 120</span>
             </div>
@@ -74,6 +86,25 @@
             grid-template-columns: 1fr 1fr
             gap 24px
 
+            &__template 
+                display flex
+                flex-direction column        
+
+                &__container
+                    display flex
+                    flex-direction row   
+                    align-items center 
+
+                &__is-danger 
+                    border: 1px solid red !important
+
+                & > p
+                    margin-top 6px
+                    margin-bottom 0
+                    text-align right
+                    font-weight 500
+                    color red    
+
             &__textarea-container 
                 display flex
                 flex-direction column
@@ -88,6 +119,9 @@
                 border 1px solid #CCCCCC
                 padding 0 10px
                 font-family arial
+                font-size 16px
+                font-weight 600
+                width 100%
 
                 &::placeholder
                     font-size 16px
