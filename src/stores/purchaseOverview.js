@@ -56,6 +56,11 @@ export const usePurchaseOverview = defineStore('overview', {
             if(this.phone.value == '') return true
             return pattern.test(this.phone.value)
         },
+        isDropshipperPhoneValid() {
+            const pattern = /^[\d\-\+\(\)]{6,20}$/
+            if(this.dropshipper_phone.value == '') return true
+            return pattern.test(this.dropshipper_phone.value)
+        },
         isEmailValid() {
             const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
             return pattern.test(this.name.value)

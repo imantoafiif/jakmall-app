@@ -6,10 +6,33 @@
     import { storeToRefs } from 'pinia'
 
     const overview = usePurchaseOverview()
-    const { isPhoneValid, isEmailValid } = storeToRefs(overview)
+    const { isPhoneValid, isDropshipperPhoneValid, isEmailValid } = storeToRefs(overview)
 
     const inputHandler = (which) => {
         switch(which) {
+            case 'address':
+                if(overview.address.value === '') {
+                    overview.address.error_code = 0
+                    return
+                }
+                overview.address.error_code = 3
+            break;
+            case 'dropshipper':
+                if(overview.dropshipper.value === '') {
+                    overview.dropshipper.error_code = 0
+                    return
+                }
+                overview.dropshipper.error_code = 3
+            break;
+            case 'dropshipper_phone': 
+                if (overview.dropshipper_phone.value === '') {
+                    overview.dropshipper_phone.error_code = 0
+                } else if (!isDropshipperPhoneValid.value) {
+                    overview.dropshipper_phone.error_code = 2
+                } else {
+                    overview.dropshipper_phone.error_code = 3
+                }
+            break;
             case 'email':
                 if (overview.name.value === '') {
                     overview.name.error_code = 0
@@ -80,7 +103,7 @@
                     }" 
                     class="delivery-container__input-grouping__template__container">
                     <input @input="inputHandler('email')" placeholder="Email" v-model="overview.name.value" />
-                    <span><font-awesome-icon icon="check" /></span>
+                    <span v-if="overview.name.error_code > 0"><font-awesome-icon icon="check" /></span>
                 </div>
                 <p v-if="[1, 2].includes(overview.name.error_code)">{{ generateWarning(overview.name.error_code) }}</p>
             </div>
@@ -88,12 +111,14 @@
                 <div
                     :class="{
                         'delivery-container__input-grouping__template__is-danger': overview.dropshipper.error_code == 1,
+                        'delivery-container__input-grouping__template__is-warning': overview.dropshipper.error_code == 2,
+                        'delivery-container__input-grouping__template__is-success': overview.dropshipper.error_code == 3,
                     }"                          
                     class="delivery-container__input-grouping__template__container">
-                    <input @input="() => overview.dropshipper.error_code = 0" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper.value" />
+                    <input @input="inputHandler('dropshipper')" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper.value" />
                     <span><font-awesome-icon icon="check" /></span>
                 </div>
-                <p v-if="overview.dropshipper.error_code > 0">This field is required</p>
+                <p v-if="[1, 2].includes(overview.dropshipper.error_code)">{{ generateWarning(overview.dropshipper.error_code) }}</p>
             </div>
             <div class="delivery-container__input-grouping__template">
                 <div
@@ -114,23 +139,24 @@
                         'delivery-container__input-grouping__template__is-danger': overview.dropshipper_phone.error_code == 1
                     }"                           
                     class="delivery-container__input-grouping__template__container">
-                    <input @input="() => overview.dropshipper_phone.error_code = 0" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Phone Number" v-model="overview.dropshipper_phone.value" />
+                    <input @input="inputHandler('dropshipper_phone')" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Phone Number" v-model="overview.dropshipper_phone.value" />
                     <span><font-awesome-icon icon="check" /></span>
                 </div>
-                <p v-if="overview.dropshipper_phone.error_code > 0">This field is required</p>
+                <p v-if="[1, 2].includes(overview.dropshipper_phone.error_code)">{{ generateWarning(overview.dropshipper_phone.error_code) }}</p>
             </div>
             <div class="delivery-container__input-grouping__textarea-container">
                 <textarea 
                     :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.address.error_code == 1
+                        'delivery-container__input-grouping__template__is-danger': overview.address.error_code == 1,
+                        'delivery-container__input-grouping__template__is-success': overview.address.error_code == 3,
                     }"          
-                    @input="() => overview.address.error_code = 0"                
+                    @input="inputHandler('address')"                
                     maxlength="120"
                     v-model="overview.address.value"
                     placeholder="Delivery Address"></textarea>
                 <p>
                     <span>{{ overview.address.value.length }} / 120</span>
-                    <span v-if="overview.address.error_code > 0">This field is required</span>
+                    <span v-if="[1, 2].includes(overview.address.error_code)">{{ generateWarning(overview.address.error_code) }}</span>
                 </p>
             </div>
         </div>
@@ -175,13 +201,16 @@
                         padding 0 10px
 
                 &__is-danger 
-                    border: 1px solid red !important
+                    border 1px solid red !important
+                    color red
 
                 &__is-warning 
-                    border: 1px solid #FF8A00 !important
+                    border 1px solid #FF8A00 !important
+                    color #FF8A00
 
                 &__is-success
-                    border: 1px solid #1BD97B !important
+                    border 1px solid #1BD97B !important
+                    color #1BD97B
 
                 & > p
                     margin-top 6px
@@ -208,6 +237,7 @@
             input, 
             textarea
                 // border 1px solid #CCCCCC
+                color black
                 border none
                 padding 0 10px
                 font-family arial
