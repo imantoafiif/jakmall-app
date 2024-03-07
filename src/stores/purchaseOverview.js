@@ -9,20 +9,26 @@ export const usePurchaseOverview = defineStore('overview', {
         return {
             page: 1,
             name: {
-                value: null,
-                error_code: 1,
+                value: '',
+                error_code: 0,
             },
             phone: {
-                value: null,
+                value: '',
                 error_code: 0,
             },
             address: {
-                value: null,
+                value: '',
                 error_code: 0,
             },
             is_dropshipping: false,
-            dropshipper: null,
-            dropshipper_phone: null,
+            dropshipper: {
+                value: '',
+                error_code: 0,
+            },
+            dropshipper_phone: {
+                value: '',
+                error_code: 0,
+            },
             shipment: { method: 'GO-SEND', value: 15000, id: 'GOJEK' },
             payment: { method: 'e-Wallet', value: 1500000, id: 'EWALLET' },
             order_id: null,
@@ -43,6 +49,18 @@ export const usePurchaseOverview = defineStore('overview', {
                 (this.is_dropshipping ? 5900 : 0) +
                 (this.page >= 2 ? this.shipment?.value : 0)
             )
+        },
+        isPhoneValid() {
+            const pattern = /^[\d\-\+\(\)]{6,20}$/
+            if(this.phone.value == '') return false
+            return pattern.test(this.phone.value)
+        },
+        isEmailValid() {
+            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            return pattern.test(this.name.value)
+        },
+        isAddressValid() {
+            return this.address.value !== ''
         }
     },
     actions: {

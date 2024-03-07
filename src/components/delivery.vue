@@ -1,18 +1,23 @@
 <script setup>
     import Title from './title.vue'
     import checkbox from './checkbox.vue';
-    import { ref, watch } from 'vue';
+    import { watch } from 'vue';
     import { usePurchaseOverview } from '../stores/purchaseOverview'
 
-    const address = ref('')
     const overview = usePurchaseOverview()
 
     watch(
         () => overview.is_dropshipping,
         (newValue, oldValue) => {
             if(!newValue) {
-                overview.setDropshipper(null)
-                overview.setDropshipperPhone(null)
+                overview.setDropshipper({
+                    value: null,
+                    error_code: 0,
+                })
+                overview.setDropshipperPhone({
+                    value: null,
+                    error_code: 0,
+                })
             }
         }
     )
@@ -35,28 +40,62 @@
         </div>
         <div class="delivery-container__input-grouping">
             <div class="delivery-container__input-grouping__template">
-                <div class="delivery-container__input-grouping__template__container">
-                    <input placeholder="Email" v-model="overview.name.value" />
-                    x
+                <div
+                    :class="{
+                        'delivery-container__input-grouping__template__is-danger': overview.name.error_code == 1
+                    }" 
+                    class="delivery-container__input-grouping__template__container">
+                    <input @input="() => overview.name.error_code = 0" placeholder="Email" v-model="overview.name.value" />
+                    <span><font-awesome-icon icon="check" /></span>
                 </div>
-                <p v-if="overview.name.error_code == 1">This field is required</p>
+                <p v-if="overview.name.error_code > 0">This field is required</p>
             </div>
             <div class="delivery-container__input-grouping__template">
-                <div class="delivery-container__input-grouping__template__container">
-                    <input placeholder="Phone Number" v-model="overview.name.value" />
-                    x
+                <div
+                    :class="{
+                        'delivery-container__input-grouping__template__is-danger': overview.dropshipper.error_code == 1
+                    }"                          
+                    class="delivery-container__input-grouping__template__container">
+                    <input @input="() => overview.dropshipper.error_code = 0" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper.value" />
+                    <span><font-awesome-icon icon="check" /></span>
                 </div>
-                <p v-if="overview.name.error_code == 1">This field is required</p>
+                <p v-if="overview.dropshipper.error_code > 0">This field is required</p>
             </div>
-            <!-- <input :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper" /> -->
-            <input placeholder="Phone Number" v-model="overview.phone.value" />
-            <input :disabled="!overview.is_dropshipping" placeholder="Dropshipper Phone Number" v-model="overview.dropshipper_phone" />
+            <div class="delivery-container__input-grouping__template">
+                <div
+                    :class="{
+                        'delivery-container__input-grouping__template__is-danger': overview.phone.error_code == 1
+                    }"                     
+                    class="delivery-container__input-grouping__template__container">
+                    <input @input="() => overview.phone.error_code = 0" placeholder="Phone Number" v-model="overview.phone.value" />
+                    <span><font-awesome-icon icon="check" /></span>
+                </div>
+                <p v-if="overview.phone.error_code > 0">This field is required</p>
+            </div>
+            <div class="delivery-container__input-grouping__template">
+                <div
+                    :class="{
+                        'delivery-container__input-grouping__template__is-danger': overview.dropshipper_phone.error_code == 1
+                    }"                           
+                    class="delivery-container__input-grouping__template__container">
+                    <input @input="() => overview.dropshipper_phone.error_code = 0" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Phone Number" v-model="overview.dropshipper_phone.value" />
+                    <span><font-awesome-icon icon="check" /></span>
+                </div>
+                <p v-if="overview.dropshipper_phone.error_code > 0">This field is required</p>
+            </div>
             <div class="delivery-container__input-grouping__textarea-container">
                 <textarea 
+                    :class="{
+                        'delivery-container__input-grouping__template__is-danger': overview.address.error_code == 1
+                    }"          
+                    @input="() => overview.address.error_code = 0"                
                     maxlength="120"
                     v-model="overview.address.value"
                     placeholder="Delivery Address"></textarea>
-                <span>{{ address.length }} / 120</span>
+                <p>
+                    <span>{{ overview.address.value.length }} / 120</span>
+                    <span v-if="overview.address.error_code > 0">This field is required</span>
+                </p>
             </div>
         </div>
     </div>
@@ -94,6 +133,10 @@
                     display flex
                     flex-direction row   
                     align-items center 
+                    border 1px solid #CCCCCC
+
+                    & > span 
+                        padding 0 10px
 
                 &__is-danger 
                     border: 1px solid red !important
@@ -109,14 +152,21 @@
                 display flex
                 flex-direction column
                 gap 6px
-                align-items flex-end
 
-                > span 
+                > p 
+                    display flex
+                    justify-content space-between
                     color rgba(0, 0, 0, .4)
+                    margin-top 2px
+
+                    & > span:nth-child(2)
+                        color red
+                        font-weight 500
 
             input, 
             textarea
-                border 1px solid #CCCCCC
+                // border 1px solid #CCCCCC
+                border none
                 padding 0 10px
                 font-family arial
                 font-size 16px
@@ -135,6 +185,7 @@
                 height 60px
 
             textarea
+                border 1px solid #CCCCCC
                 height 120px
                 padding 10px
                 width  -webkit-fill-available;

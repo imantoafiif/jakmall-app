@@ -6,11 +6,35 @@
     import payment from './payment.vue';
     import summaries from './summary.vue';
     import { watch, shallowRef, onMounted }  from 'vue';
+    import { storeToRefs } from 'pinia'
 
     const view = shallowRef(delivery)
     const overview = usePurchaseOverview()
-    const onProceed = () => {
-        console.log(1)
+    const { isPhoneValid } = storeToRefs(overview)
+
+    const onProceed = async () => {
+        let has_error = false
+        switch(overview.page) {
+            case 1: 
+                // if(isPhoneValid.value) {
+                //     console.log(1)
+                // }
+                const attributes = [
+                    'phone', 
+                    'name', 
+                    'address', 
+                    ...(overview.is_dropshipping ? ['dropshipper', 'dropshipper_phone'] : [])
+                ]
+                attributes.forEach(item => {
+                    if(overview[item].value == '') {
+                        overview[item].error_code = 1
+                        has_error = true
+                    }
+                })
+            break;
+        }
+        if(has_error) return
+        overview.setPage(overview.page + 1)
     }
 
     overview.$subscribe(() => {
