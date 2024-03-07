@@ -18,12 +18,12 @@
             <a @click="() => overview.setOverview(
                 {
                     page: 1,
-                    name: null,
-                    phone: null,
-                    address: null,
+                    name: { value: '', error_code: 0 },
+                    phone: { value: '', error_code: 0 },
+                    address: { value: '', error_code: 0 },
                     is_dropshipping: false,
-                    dropshipper: null,
-                    dropshipper_phone: null,
+                    dropshipper: { value: '', error_code: 0 },
+                    dropshipper_phone: { value: '', error_code: 0 },
                     shipment: { method: 'GO-SEND', value: 15000, id: 'GOJEK' },
                     payment: { method: 'e-Wallet', value: 1500000, id: 'EWALLET' },
                     order_id: null,

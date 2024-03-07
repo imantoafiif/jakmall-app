@@ -22,8 +22,11 @@
                         { method: 'JNE', value: 9000, id: 'JNE' },
                         { method: 'Personal Courier', value: 29000, id: 'COURIER' },
                     ]">
-                    <span>{{ item.method }}</span>
-                    <strong>{{ item.value }}</strong>
+                    <div class="payment-container__item__list__left">
+                        <span>{{ item.method }}</span>
+                        <strong>{{ item.value }}</strong>
+                    </div>
+                    <font-awesome-icon v-if="overview.shipment?.id == item.id" icon="check" />
                 </div>
             </div>
         </div>
@@ -38,11 +41,14 @@
                         { method: 'Bank Transfer', value: null, id: 'BANKTF' },
                         { method: 'Virtual Account', value: null, id: 'VA' },
                     ]">
-                    <span>{{ item.method }}</span>
-                    <strong>
-                        {{ item.value }}
-                        {{ item.value ? 'left' : '' }}
-                    </strong>
+                    <div class="payment-container__item__list__left">
+                        <span>{{ item.method }}</span>
+                        <strong>
+                            {{ item.value }}
+                            {{ item.value ? 'left' : '' }}
+                        </strong>
+                    </div>
+                    <font-awesome-icon v-if="overview.payment?.id == item.id" icon="check" />
                 </div>
             </div>
         </div>
@@ -71,7 +77,12 @@
             &__list 
                 display flex
                 flex-direction row
+                justify-content space-between
                 gap 15px
+
+                &__left
+                    display flex
+                    flex-direction column
 
                 & > div
                     // width 180px
@@ -80,9 +91,11 @@
                     border 1px solid #CCCCCC
                     cursor pointer
                     display flex
-                    flex-direction column
+                    flex-direction row
                     justify-content center
+                    align-items center
                     font-weight 500
+                    justify-content space-between
                     padding 0 10px
 
                     & > strong

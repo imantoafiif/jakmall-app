@@ -44,7 +44,7 @@
     overview.$subscribe(() => {
         const state = JSON.stringify(overview)
         localStorage.setItem('user-state', state)
-        console.log(state)
+        // console.log(state)
     }, { detached: true })
 
     onMounted(() => {
