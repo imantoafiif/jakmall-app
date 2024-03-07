@@ -191,11 +191,20 @@
             justify-content space-between
             align-items center
 
+            @media screen and (max-width: 992px) 
+                flex-direction column
+                align-items flex-start
+                gap 20px
+
         &__input-grouping 
             width 100%
             display grid
             grid-template-columns: 1fr 1fr
             gap 24px
+
+            @media screen and (max-width: 992px) 
+                grid-template-columns: 1fr
+
 
             &__template 
                 display flex

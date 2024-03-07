@@ -80,6 +80,11 @@
         margin-top 45px
         justify-content space-between
 
+        @media screen and (max-width: 992px) 
+            border-left none
+            padding-left 0
+            width 100%
+
         &__head
             display flex
             flex-direction column

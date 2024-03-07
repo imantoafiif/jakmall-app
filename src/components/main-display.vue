@@ -44,7 +44,7 @@
     overview.$subscribe(() => {
         const state = JSON.stringify(overview)
         localStorage.setItem('user-state', state)
-        // console.log(state)
+        console.log(state)
     }, { detached: true })
 
     onMounted(() => {
@@ -93,6 +93,11 @@
         flex-direction row
         box-shadow 2px 10px 20px 0 #ff8a0020
         position relative
+        
+        @media screen and (max-width: 992px) 
+            flex-direction column
+            height auto
+            width 100%
 
         &__pages
             display flex
@@ -101,9 +106,15 @@
             flex-grow 1
             margin-right 20px
 
+            @media screen and (max-width: 992px) 
+                margin-right 0
+
         &__breadcrumbs 
             position absolute
             top -35px
             left 50%
             transform: translate(-50%)
+
+            @media screen and (max-width: 992px) 
+                display none
 </style>
