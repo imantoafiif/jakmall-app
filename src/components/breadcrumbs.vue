@@ -15,6 +15,7 @@
             class="bc-container__steps">
             <div :class="{'bc-container__steps__active': step.key <= overview.page}">{{ step.key }}</div>
             <span>{{ step.label }}</span>
+            <font-awesome-icon v-if="step.key < 3" icon="angle-right" />
         </div>
     </div>
 </template>
@@ -26,7 +27,7 @@
         background #FFFAE6
         font-size 16px
         font-weight 500
-        gap 65px
+        // gap 65px
         padding 20px 40px
         border-radius 50px
 
@@ -35,6 +36,10 @@
             flex-direction row
             align-items center
             gap 8px
+
+            & > svg 
+                margin 0 20px
+                color #FF8A00
 
             & > div 
                 width 30px
