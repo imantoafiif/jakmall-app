@@ -3,8 +3,40 @@
     import checkbox from './checkbox.vue';
     import { watch } from 'vue';
     import { usePurchaseOverview } from '../stores/purchaseOverview'
+    import { storeToRefs } from 'pinia'
 
     const overview = usePurchaseOverview()
+    const { isPhoneValid, isEmailValid } = storeToRefs(overview)
+
+    const inputHandler = (which) => {
+        switch(which) {
+            case 'email':
+                if (overview.name.value === '') {
+                    overview.name.error_code = 0
+                } else if (!isEmailValid.value) {
+                    overview.name.error_code = 2
+                } else {
+                    overview.name.error_code = 3
+                }
+            break;
+            case 'phone': 
+                if (overview.phone.value === '') {
+                    overview.phone.error_code = 0
+                } else if (!isPhoneValid.value) {
+                    overview.phone.error_code = 2
+                } else {
+                    overview.phone.error_code = 3
+                }
+            break;
+        }
+    }
+
+    const generateWarning = which => {
+        switch(which) {
+            case 1: return 'This field is required'
+            case 2: return 'Wrong input format'
+        }
+    }
 
     watch(
         () => overview.is_dropshipping,
@@ -42,18 +74,20 @@
             <div class="delivery-container__input-grouping__template">
                 <div
                     :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.name.error_code == 1
+                        'delivery-container__input-grouping__template__is-danger': overview.name.error_code == 1,
+                        'delivery-container__input-grouping__template__is-warning': overview.name.error_code == 2,
+                        'delivery-container__input-grouping__template__is-success': overview.name.error_code == 3,
                     }" 
                     class="delivery-container__input-grouping__template__container">
-                    <input @input="() => overview.name.error_code = 0" placeholder="Email" v-model="overview.name.value" />
+                    <input @input="inputHandler('email')" placeholder="Email" v-model="overview.name.value" />
                     <span><font-awesome-icon icon="check" /></span>
                 </div>
-                <p v-if="overview.name.error_code > 0">This field is required</p>
+                <p v-if="[1, 2].includes(overview.name.error_code)">{{ generateWarning(overview.name.error_code) }}</p>
             </div>
             <div class="delivery-container__input-grouping__template">
                 <div
                     :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.dropshipper.error_code == 1
+                        'delivery-container__input-grouping__template__is-danger': overview.dropshipper.error_code == 1,
                     }"                          
                     class="delivery-container__input-grouping__template__container">
                     <input @input="() => overview.dropshipper.error_code = 0" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper.value" />
@@ -64,13 +98,15 @@
             <div class="delivery-container__input-grouping__template">
                 <div
                     :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.phone.error_code == 1
+                        'delivery-container__input-grouping__template__is-danger': overview.phone.error_code == 1,
+                        'delivery-container__input-grouping__template__is-warning': overview.phone.error_code == 2,
+                        'delivery-container__input-grouping__template__is-success': overview.phone.error_code == 3,
                     }"                     
                     class="delivery-container__input-grouping__template__container">
-                    <input @input="() => overview.phone.error_code = 0" placeholder="Phone Number" v-model="overview.phone.value" />
+                    <input @input="inputHandler('phone')" placeholder="Phone Number" v-model="overview.phone.value" />
                     <span><font-awesome-icon icon="check" /></span>
                 </div>
-                <p v-if="overview.phone.error_code > 0">This field is required</p>
+                <p v-if="[1, 2].includes(overview.phone.error_code)">{{ generateWarning(overview.phone.error_code) }}</p>
             </div>
             <div class="delivery-container__input-grouping__template">
                 <div
@@ -140,6 +176,12 @@
 
                 &__is-danger 
                     border: 1px solid red !important
+
+                &__is-warning 
+                    border: 1px solid #FF8A00 !important
+
+                &__is-success
+                    border: 1px solid #1BD97B !important
 
                 & > p
                     margin-top 6px

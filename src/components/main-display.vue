@@ -29,6 +29,10 @@
                     if(overview[item].value == '') {
                         overview[item].error_code = 1
                         has_error = true
+                    } else {
+                        if([1, 2].includes(overview[item].error_code)) {
+                            has_error = true
+                        }
                     }
                 })
             break;

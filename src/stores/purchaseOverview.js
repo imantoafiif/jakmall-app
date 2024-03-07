@@ -2,9 +2,10 @@ import { defineStore } from "pinia";
 
 export const usePurchaseOverview = defineStore('overview', {
     //error code
-    //0 -> no error / empty input
-    //1 -> wrong input
-    //2 -> input accepted
+    //0 -> initial
+    //1 -> no input 
+    //2 -> wrong format
+    //3 -> accepted
     state: () => {
         return {
             page: 1,
@@ -52,7 +53,7 @@ export const usePurchaseOverview = defineStore('overview', {
         },
         isPhoneValid() {
             const pattern = /^[\d\-\+\(\)]{6,20}$/
-            if(this.phone.value == '') return false
+            if(this.phone.value == '') return true
             return pattern.test(this.phone.value)
         },
         isEmailValid() {
