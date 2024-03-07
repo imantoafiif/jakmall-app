@@ -16,9 +16,7 @@
         let has_error = false
         switch(overview.page) {
             case 1: 
-                // if(isPhoneValid.value) {
-                //     console.log(1)
-                // }
+                console.log('motel then', overview.is_dropshipping)
                 const attributes = [
                     'phone', 
                     'name', 
@@ -26,7 +24,7 @@
                     ...(overview.is_dropshipping ? ['dropshipper', 'dropshipper_phone'] : [])
                 ]
                 attributes.forEach(item => {
-                    if(overview[item].value == '') {
+                    if(['', null].includes(overview[item].value)) {
                         overview[item].error_code = 1
                         has_error = true
                     } else {
@@ -37,6 +35,7 @@
                 })
             break;
         }
+        console.log('has_error', has_error)
         if(has_error) return
         overview.setPage(overview.page + 1)
     }
