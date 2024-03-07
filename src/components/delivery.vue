@@ -33,7 +33,7 @@
                     overview.dropshipper_phone.error_code = 3
                 }
             break;
-            case 'email':
+            case 'name':
                 if (overview.name.value === '') {
                     overview.name.error_code = 0
                 } else if (!isEmailValid.value) {
@@ -102,63 +102,35 @@
             </div>
         </div>
         <div class="delivery-container__input-grouping">
-            <div class="delivery-container__input-grouping__template">
+            <div
+                v-for="item in [
+                    { placeholder: 'Email', value: 'name' },
+                    { placeholder: 'Dropshipper Name', value: 'dropshipper' },
+                    { placeholder: 'Phone Number', value: 'phone' },
+                    { placeholder: 'Dropshipper Phone Number', value: 'dropshipper_phone' },
+                ]" 
+                class="delivery-container__input-grouping__template">
                 <div
                     :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.name.error_code == 1,
-                        'delivery-container__input-grouping__template__is-warning': overview.name.error_code == 2,
-                        'delivery-container__input-grouping__template__is-success': overview.name.error_code == 3,
-                    }" 
-                    class="delivery-container__input-grouping__template__container">
-                    <input @input="inputHandler('email')" placeholder="Email" v-model="overview.name.value" />
-                    <span v-if="overview.name.error_code > 0"><font-awesome-icon :icon="getIcon(overview.name.error_code)" /></span>
-                </div>
-                <p v-if="[1, 2].includes(overview.name.error_code)">{{ generateWarning(overview.name.error_code) }}</p>
-            </div>
-            <div class="delivery-container__input-grouping__template">
-                <div
-                    :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.dropshipper.error_code == 1,
-                        'delivery-container__input-grouping__template__is-warning': overview.dropshipper.error_code == 2,
-                        'delivery-container__input-grouping__template__is-success': overview.dropshipper.error_code == 3,
-                    }"                          
-                    class="delivery-container__input-grouping__template__container">
-                    <input @input="inputHandler('dropshipper')" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper.value" />
-                    <span v-if="overview.dropshipper.error_code > 0"><font-awesome-icon :icon="getIcon(overview.dropshipper.error_code)" /></span>
-                </div>
-                <p v-if="[1, 2].includes(overview.dropshipper.error_code)">{{ generateWarning(overview.dropshipper.error_code) }}</p>
-            </div>
-            <div class="delivery-container__input-grouping__template">
-                <div
-                    :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.phone.error_code == 1,
-                        'delivery-container__input-grouping__template__is-warning': overview.phone.error_code == 2,
-                        'delivery-container__input-grouping__template__is-success': overview.phone.error_code == 3,
-                    }"                     
-                    class="delivery-container__input-grouping__template__container">
-                    <input @input="inputHandler('phone')" placeholder="Phone Number" v-model="overview.phone.value" />
-                    <span v-if="overview.phone.error_code > 0"><font-awesome-icon :icon="getIcon(overview.phone.error_code)" /></span>
-                </div>
-                <p v-if="[1, 2].includes(overview.phone.error_code)">{{ generateWarning(overview.phone.error_code) }}</p>
-            </div>
-            <div class="delivery-container__input-grouping__template">
-                <div
-                    :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.dropshipper_phone.error_code == 1,
-                        'delivery-container__input-grouping__template__is-warning': overview.dropshipper_phone.error_code == 2,
-                        'delivery-container__input-grouping__template__is-success': overview.dropshipper_phone.error_code == 3,
+                        'delivery-container__input-grouping__template--is-danger': overview[item.value].error_code == 1,
+                        'delivery-container__input-grouping__template--is-warning': overview[item.value].error_code == 2,
+                        'delivery-container__input-grouping__template--is-success': overview[item.value].error_code == 3,
                     }"                           
                     class="delivery-container__input-grouping__template__container">
-                    <input @input="inputHandler('dropshipper_phone')" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Phone Number" v-model="overview.dropshipper_phone.value" />
-                    <span v-if="overview.dropshipper_phone.error_code > 0"><font-awesome-icon :icon="getIcon(overview.dropshipper_phone.error_code)" /></span>
+                    <input 
+                        @input="inputHandler(item.value)" 
+                        :disabled="['dropshipper', 'dropshipper_phone'].includes(item.value) && !overview.is_dropshipping" 
+                        :placeholder="item.placeholder" 
+                        v-model="overview[item.value].value" />
+                    <span v-if="overview.dropshipper_phone.error_code > 0"><font-awesome-icon :icon="getIcon(overview[item.value].error_code)" /></span>
                 </div>
-                <p v-if="[1, 2].includes(overview.dropshipper_phone.error_code)">{{ generateWarning(overview.dropshipper_phone.error_code) }}</p>
-            </div>
+                <p v-if="[1, 2].includes(overview[item.value].error_code)">{{ generateWarning(overview[item.value].error_code) }}</p>
+            </div> 
             <div class="delivery-container__input-grouping__textarea-container">
                 <textarea 
                     :class="{
-                        'delivery-container__input-grouping__template__is-danger': overview.address.error_code == 1,
-                        'delivery-container__input-grouping__template__is-success': overview.address.error_code == 3,
+                        'delivery-container__input-grouping__template--is-danger': overview.address.error_code == 1,
+                        'delivery-container__input-grouping__template--is-success': overview.address.error_code == 3,
                     }"          
                     @input="inputHandler('address')"                
                     maxlength="120"
@@ -219,15 +191,15 @@
                     & > span 
                         padding 0 10px
 
-                &__is-danger 
+                &--is-danger 
                     border 1px solid red !important
                     color red
 
-                &__is-warning 
+                &--is-warning 
                     border 1px solid #FF8A00 !important
                     color #FF8A00
 
-                &__is-success
+                &--is-success
                     border 1px solid #1BD97B !important
                     color #1BD97B
 
