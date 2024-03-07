@@ -96,7 +96,9 @@
         
         @media screen and (max-width: 992px) 
             flex-direction column
-            height auto
+            // height auto
+            overflow-y auto
+            height 95%
             width 100%
 
         &__pages

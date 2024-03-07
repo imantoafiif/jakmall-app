@@ -80,6 +80,9 @@
                 justify-content space-between
                 gap 15px
 
+                @media screen and (max-width: 992px) 
+                    flex-direction column
+
                 &__left
                     display flex
                     flex-direction column
@@ -97,6 +100,9 @@
                     font-weight 500
                     justify-content space-between
                     padding 0 10px
+
+                    @media screen and (max-width: 992px) 
+                        width auto
 
                     & > strong
                         font-size 16px
