@@ -7,7 +7,7 @@
 
 <template>
     <div class="payment-container">
-        <a @click="() => overview.setPage(overview.page - 1)">
+        <a @click="() => overview.setter('page', overview.page - 1)">
             <font-awesome-icon icon="arrow-left" />
             Back to Delivery
         </a>
@@ -15,8 +15,8 @@
             <Title :label="'Shipment'"></Title>
             <div class="payment-container__item__list">
                 <div
-                    @click="() => overview.setShipment(item)"
-                    :class="{'payment-container__item__list__active': overview.shipment?.id == item.id}" 
+                    @click="() => overview.setter('shipment', item)"
+                    :class="{'payment-container__item__list--active': overview.shipment?.id == item.id}" 
                     v-for="item in [
                         { method: 'GO-SEND', value: 15000, id: 'GOJEK' },
                         { method: 'JNE', value: 9000, id: 'JNE' },
@@ -34,8 +34,8 @@
             <Title :label="'Payment'"></Title>
             <div class="payment-container__item__list">
                 <div
-                    @click="() => overview.setPayment(item)"
-                    :class="{'payment-container__item__list__active': overview.payment?.id == item.id}" 
+                    @click="() => overview.setter('payment', item)"
+                    :class="{'payment-container__item__list--active': overview.payment?.id == item.id}" 
                     v-for="item in [
                         { method: 'e-Wallet', value: 1500000, id: 'EWALLET' },
                         { method: 'Bank Transfer', value: null, id: 'BANKTF' },
@@ -107,7 +107,7 @@
                     & > strong
                         font-size 16px
 
-                &__active
+                &--active
                     border 1px solid #1BD97B !important
                     background #1BD97B1A
 

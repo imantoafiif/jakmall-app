@@ -3,54 +3,24 @@
     import checkbox from './checkbox.vue';
     import { watch } from 'vue';
     import { usePurchaseOverview } from '../stores/purchaseOverview'
-    import { storeToRefs } from 'pinia'
 
     const overview = usePurchaseOverview()
-    const { isPhoneValid, isDropshipperPhoneValid, isEmailValid } = storeToRefs(overview)
 
     const inputHandler = (which) => {
-        switch(which) {
-            case 'address':
-                if(overview.address.value === '') {
-                    overview.address.error_code = 0
-                    return
-                }
-                overview.address.error_code = 3
-            break;
-            case 'dropshipper':
-                if(overview.dropshipper.value === '') {
-                    overview.dropshipper.error_code = 0
-                    return
-                }
-                overview.dropshipper.error_code = 3
-            break;
-            case 'dropshipper_phone': 
-                if (overview.dropshipper_phone.value === '') {
-                    overview.dropshipper_phone.error_code = 0
-                } else if (!isDropshipperPhoneValid.value) {
-                    overview.dropshipper_phone.error_code = 2
-                } else {
-                    overview.dropshipper_phone.error_code = 3
-                }
-            break;
-            case 'name':
-                if (overview.name.value === '') {
-                    overview.name.error_code = 0
-                } else if (!isEmailValid.value) {
-                    overview.name.error_code = 2
-                } else {
-                    overview.name.error_code = 3
-                }
-            break;
-            case 'phone': 
-                if (overview.phone.value === '') {
-                    overview.phone.error_code = 0
-                } else if (!isPhoneValid.value) {
-                    overview.phone.error_code = 2
-                } else {
-                    overview.phone.error_code = 3
-                }
-            break;
+        if(['address', 'dropshipper'].includes(which)) {
+            if(overview[which].value === '') {
+                overview[which].error_code = 0
+                return
+            }
+            overview[which].error_code = 3
+        } else {
+            if (overview[which].value === '') {
+                overview[which].error_code = 0
+            } else if (!overview.isFormatValid(which)) {
+                overview[which].error_code = 2
+            } else {
+                overview[which].error_code = 3
+            }
         }
     }
 
@@ -73,11 +43,11 @@
         () => overview.is_dropshipping,
         (newValue, oldValue) => {
             if(!newValue) {
-                overview.setDropshipper({
+                overview.setter('dropshipper', {
                     value: null,
                     error_code: 0,
                 })
-                overview.setDropshipperPhone({
+                overview.setter('dropshipper_phone', {
                     value: null,
                     error_code: 0,
                 })
@@ -96,7 +66,7 @@
             <Title :label="'Delivery Details'"></Title>
             <div>
                 <checkbox 
-                    @action="() => overview.setDropshipStatus(!overview.is_dropshipping)"
+                    @action="() => overview.setter('is_dropshipping', !overview.is_dropshipping)"
                     :value="overview.is_dropshipping"
                     :label="'Send as dropshipper'"/>
             </div>

@@ -56,11 +56,6 @@
                 <strong>Total</strong>
                 <strong>{{ total }}</strong>
             </h1>
-            <!-- <button 
-                v-if="overview.page < 3"
-                @click="() => overview.setPage(overview.page + 1)">
-                {{ buttonMessage() }}
-            </button> -->
             <button 
                 v-if="overview.page < 3"
                 @click="$emit('proceed')">

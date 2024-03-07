@@ -51,39 +51,18 @@ export const usePurchaseOverview = defineStore('overview', {
                 (this.page >= 2 ? this.shipment?.value : 0)
             )
         },
-        isPhoneValid() {
-            const pattern = /^[\d\-\+\(\)]{6,20}$/
-            // if(this.phone.value == '') return true
-            return pattern.test(this.phone.value)
+        isFormatValid: state => param => {
+            const pattern = (
+                ['phone', 'dropshipper_phone'].includes(param) ? 
+                /^[\d\-\+\(\)]{6,20}$/ : 
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            )
+            return pattern.test(state[param].value)
         },
-        isDropshipperPhoneValid() {
-            const pattern = /^[\d\-\+\(\)]{6,20}$/
-            // if(this.dropshipper_phone.value == '') return true
-            return pattern.test(this.dropshipper_phone.value)
-        },
-        isEmailValid() {
-            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            return pattern.test(this.name.value)
-        },
-        isAddressValid() {
-            return this.address.value !== ''
-        }
     },
     actions: {
-        setPage(v) {
-            this.page = v
-        },
-        setShipment(v) {
-            this.shipment = v
-        },
-        setPayment(v) {
-            this.payment = v
-        },
-        setDropshipper(v) {
-            this.dropshipper = v
-        },
-        setDropshipperPhone(v) {
-            this.dropshipper_phone = v
+        setter(key, v) {
+            this[key] = v
         },
         setOID() {
             const characters = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -92,9 +71,6 @@ export const usePurchaseOverview = defineStore('overview', {
                 const i = Math.floor(Math.random() * characters.length);
                 this.order_id = `${this.order_id}${characters[i]}`
             }
-        },
-        setDropshipStatus(v) {
-            this.is_dropshipping = v
         },
         setOverview({
             page,

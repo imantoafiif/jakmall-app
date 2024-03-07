@@ -10,7 +10,6 @@
 
     const view = shallowRef(delivery)
     const overview = usePurchaseOverview()
-    const { isPhoneValid } = storeToRefs(overview)
 
     const onProceed = async () => {
         let has_error = false
@@ -35,7 +34,7 @@
             break;
         }
         if(has_error) return
-        overview.setPage(overview.page + 1)
+        overview.setter('page', overview.page + 1)
     }
 
     overview.$subscribe(() => {

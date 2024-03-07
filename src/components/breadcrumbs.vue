@@ -13,7 +13,7 @@
                 { label: 'Finish', key: 3 },
             ]" 
             class="bc-container__steps">
-            <div :class="{'bc-container__steps__active': step.key <= overview.page}">{{ step.key }}</div>
+            <div :class="{'bc-container__steps--active': step.key <= overview.page}">{{ step.key }}</div>
             <span>{{ step.label }}</span>
             <font-awesome-icon v-if="step.key < 3" icon="angle-right" />
         </div>
@@ -53,7 +53,7 @@
                 box-shadow 0px 2px 4px #FF8A004D
                 transition all .2s ease
 
-            &__active 
+            &--active 
                 background #FF8A00 !important
                 color white !important
 
