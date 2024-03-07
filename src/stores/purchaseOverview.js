@@ -1,6 +1,10 @@
 import { defineStore } from "pinia";
 
 export const usePurchaseOverview = defineStore('overview', {
+    //error code
+    //0 -> no error / empty input
+    //1 -> wrong input
+    //2 -> input accepted
     state: () => {
         return {
             page: 1,
