@@ -1,7 +1,23 @@
-# Vue 3 + Vite
+# Jakmall Technical Test
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A frontend app built for a recruitment purpose at Jakmall
 
-## Recommended IDE Setup
+# Built With
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- [Vue 3](https://vuejs.org/)
+- [Stylus](https://stylus-lang.com/)
+- [Pinia](https://pinia.vuejs.org/)
+
+# Built Tools & Environment
+
+- [Vite](https://vitejs.dev/) 5.1.4
+- [NPM](https://www.npmjs.com/) 8.19.2
+- [Node.js](https://nodejs.org/en) 18.12.0
+
+# Running the Project
+
+- `npm install`
+- `npm run dev`
+
+It installs the dependencies and fires the app  
+Open up http://localhost:5137 to view it in a browser
