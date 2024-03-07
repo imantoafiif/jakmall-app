@@ -124,7 +124,7 @@
                     }"                          
                     class="delivery-container__input-grouping__template__container">
                     <input @input="inputHandler('dropshipper')" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Name" v-model="overview.dropshipper.value" />
-                    <span><font-awesome-icon :icon="getIcon(overview.dropshipper.error_code)" /></span>
+                    <span v-if="overview.dropshipper.error_code > 0"><font-awesome-icon :icon="getIcon(overview.dropshipper.error_code)" /></span>
                 </div>
                 <p v-if="[1, 2].includes(overview.dropshipper.error_code)">{{ generateWarning(overview.dropshipper.error_code) }}</p>
             </div>
@@ -137,7 +137,7 @@
                     }"                     
                     class="delivery-container__input-grouping__template__container">
                     <input @input="inputHandler('phone')" placeholder="Phone Number" v-model="overview.phone.value" />
-                    <span><font-awesome-icon :icon="getIcon(overview.phone.error_code)" /></span>
+                    <span v-if="overview.phone.error_code > 0"><font-awesome-icon :icon="getIcon(overview.phone.error_code)" /></span>
                 </div>
                 <p v-if="[1, 2].includes(overview.phone.error_code)">{{ generateWarning(overview.phone.error_code) }}</p>
             </div>
@@ -150,7 +150,7 @@
                     }"                           
                     class="delivery-container__input-grouping__template__container">
                     <input @input="inputHandler('dropshipper_phone')" :disabled="!overview.is_dropshipping" placeholder="Dropshipper Phone Number" v-model="overview.dropshipper_phone.value" />
-                    <span><font-awesome-icon :icon="getIcon(overview.dropshipper_phone.error_code)" /></span>
+                    <span v-if="overview.dropshipper_phone.error_code > 0"><font-awesome-icon :icon="getIcon(overview.dropshipper_phone.error_code)" /></span>
                 </div>
                 <p v-if="[1, 2].includes(overview.dropshipper_phone.error_code)">{{ generateWarning(overview.dropshipper_phone.error_code) }}</p>
             </div>

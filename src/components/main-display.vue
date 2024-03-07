@@ -16,7 +16,6 @@
         let has_error = false
         switch(overview.page) {
             case 1: 
-                console.log('motel then', overview.is_dropshipping)
                 const attributes = [
                     'phone', 
                     'name', 
@@ -35,7 +34,6 @@
                 })
             break;
         }
-        console.log('has_error', has_error)
         if(has_error) return
         overview.setPage(overview.page + 1)
     }
@@ -43,7 +41,7 @@
     overview.$subscribe(() => {
         const state = JSON.stringify(overview)
         localStorage.setItem('user-state', state)
-        console.log(state)
+        // console.log(state)
     }, { detached: true })
 
     onMounted(() => {
